@@ -35,22 +35,6 @@ spec:
           name: grpc
         - containerPort: 8081 
           name: http
-        env:
-        - name: LOG_LEVEL
-          value: debug
-        - name: USE_STATSD
-          value: "false" 
-        - name: RUNTIME_ROOT
-          value: /data
-        - name: RUNTIME_SUBDIRECTORY
-          value: ratelimit
-        - name: RUNTIME_IGNORED_DOT_FILES
-          value: "true"
-        - name: RUNTIME_WATCH_ROOT
-          value: "false"
-        - name: CONFIG_TYPE 
-          value: FILE
-        - name: CONFIG_FILE 
           value: /data/ratelimit/config.yaml
         volumeMounts:
         - name: config-volume
