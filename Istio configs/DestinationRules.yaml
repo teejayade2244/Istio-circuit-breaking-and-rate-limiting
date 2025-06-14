@@ -1,20 +1,19 @@
+# httpbin-circuit-breaker.yaml
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
-  name: PaymentService-v1
-  namespace: default
+  name: httpbin-circuit-breaker
+  namespace: testing
 spec:
-  host: PaymentService 
+  host: httpbin 
   trafficPolicy:
     connectionPool:
-      tcp:
-        maxConnections: 100 
       http:
-        http1MaxPendingRequests: 10 
-        http2MaxRequests: 100 
+        http1MaxPendingRequests: 1 
+        http2MaxRequests: 100    
         maxRequestsPerConnection: 1 
     outlierDetection:
-      consecutive5xxErrors: 5 
-      interval: 30s         
-      baseEjectionTime: 60s 
-      maxEjectionPercent: 100 
+      consecutive5xxErrors: 3 
+      interval: 10s         
+      baseEjectionTime: 30s 
+      maxEjectionPercent: 100
