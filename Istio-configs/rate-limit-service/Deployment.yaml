@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: rate-limit-service
-        image: envoyproxy/ratelimit:latest
+        image: envoyproxy/ratelimit
         ports:
         - containerPort: 8081
         - containerPort: 8080
