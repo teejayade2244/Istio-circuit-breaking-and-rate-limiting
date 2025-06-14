@@ -1,0 +1,35 @@
+# httpbin-rate-limit-envoyfilter.yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: httpbin-rate-limit
+  namespace: testing 
+spec:
+  workloadSelector:
+    labels:
+      app: httpbin 
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_INBOUND 
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.filters.network.http_connection_manager"
+            subFilter:
+              name: "envoy.filters.http.router" 
+    patch:
+      operation: INSERT_BEFORE 
+      value:
+        name: "envoy.filters.http.rate_limit"
+        typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.http.ratelimit.v3.RateLimit"
+          domain: "httpbin_rate_limit" 
+          rate_limit_service:
+            grpc_service:
+              envoy_grpc:
+                cluster_name: "rate-limit-service.default.svc.cluster.local"
+              timeout: 0.5s
+          descriptors:
+            - key: "generic_key"
+              value: "httpbin_requests"

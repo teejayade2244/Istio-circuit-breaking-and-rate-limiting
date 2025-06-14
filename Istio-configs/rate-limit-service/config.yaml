@@ -1,0 +1,7 @@
+domain: httpbin_rate_limit
+descriptors:
+  - key: generic_key
+    value: "httpbin_requests"
+    rate_limit:
+      unit: second
+      requests_per_unit: 2 
