@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: PaymentService-v1
+  namespace: default
+spec:
+  host: PaymentService 
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100 
+      http:
+        http1MaxPendingRequests: 10 
+        http2MaxRequests: 100 
+        maxRequestsPerConnection: 1 
+    outlierDetection:
+      consecutive5xxErrors: 5 
+      interval: 30s         
+      baseEjectionTime: 60s 
+      maxEjectionPercent: 100 
