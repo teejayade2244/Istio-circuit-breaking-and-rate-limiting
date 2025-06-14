@@ -35,7 +35,6 @@ spec:
           name: grpc
         - containerPort: 8081 
           name: http
-          value: /data/ratelimit/config.yaml
         volumeMounts:
         - name: config-volume
           mountPath: /data/ratelimit
