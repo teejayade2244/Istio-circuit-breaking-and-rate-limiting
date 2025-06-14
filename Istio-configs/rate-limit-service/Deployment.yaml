@@ -48,8 +48,6 @@ spec:
           value: "true"
         - name: RUNTIME_WATCH_ROOT
           value: "false"
-        - name: REDIS_URL 
-          value: "redis-master.default.svc.cluster.local:6379" 
         - name: CONFIG_TYPE 
           value: FILE
         - name: CONFIG_FILE 
