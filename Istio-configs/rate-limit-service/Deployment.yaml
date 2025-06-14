@@ -14,14 +14,13 @@ spec:
     spec:
       containers:
       - name: rate-limit-service
-        image: envoyproxy/ratelimit:master
+        image: envoyproxy/ratelimit:master  # Use the latest ratelimit image
         command: ["/bin/ratelimit"]  # Explicitly run the binary
         args:
-        - "-config"
-        - "/data/ratelimit/config/config.yaml"
+        - "-config=/data/ratelimit/config/config.yaml"  # Load config
         ports:
-        - containerPort: 8081  # gRPC port
-        - containerPort: 8080  # HTTP port
+        - containerPort: 8081  # gRPC
+        - containerPort: 8080  # HTTP
         env:
         - name: REDIS_SOCKET_TYPE
           value: tcp
@@ -34,6 +33,18 @@ spec:
         volumeMounts:
         - name: config-volume
           mountPath: /data/ratelimit/config
+        livenessProbe:   # Add health checks
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
       volumes:
       - name: config-volume
         configMap:
