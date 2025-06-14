@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: rate-limit-service
-        image: envoyproxy/ratelimit:master
+        image: envoyproxy/ratelimit:bb4dae24
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
