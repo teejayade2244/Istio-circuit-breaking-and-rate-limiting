@@ -28,20 +28,35 @@ spec:
     spec:
       containers:
       - name: rate-limit-service
-        image: envoyproxy/ratelimit:master 
+        image: envoyproxy/ratelimit:master
         imagePullPolicy: Always
         ports:
-        - containerPort: 8080 
+        - containerPort: 8080
           name: grpc
-        - containerPort: 8081 
+        - containerPort: 8081
           name: http
+        env:
+        - name: LOG_LEVEL
+          value: debug
+        - name: USE_STATSD
+          value: "false"
+        - name: RUNTIME_ROOT
+          value: /data
+        - name: RUNTIME_SUBDIRECTORY
+          value: ratelimit
+        - name: RUNTIME_WATCH_ROOT
+          value: "false"
+        - name: CONFIG_TYPE
+          value: FILE
+        - name: CONFIG_FILE
+          value: /data/ratelimit/config/config.yaml  # Fixed path
         volumeMounts:
         - name: config-volume
-          mountPath: /data/ratelimit
+          mountPath: /data/ratelimit/config  # Fixed mount path
       volumes:
       - name: config-volume
         configMap:
-          name: rate-limit-config 
+          name: rate-limit-config
 ---
 apiVersion: v1
 kind: Service
